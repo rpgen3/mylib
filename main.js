@@ -7,8 +7,9 @@
         'random',
         'save',
         'url',
-        'useful'
-    ].map(v=>import(`https://rpgen3.github.io/lib/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
+        'useful',
+        'strToImg'
+    ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     window.rpgen4 = rpgen3;
     const h = $("<div>").appendTo($("body")).css({
         "text-align": "center",
