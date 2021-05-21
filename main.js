@@ -7,7 +7,7 @@
         'random',
         'save',
         'url',
-        'useful',
+        'util',
         'strToImg'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     window.rpgen4 = rpgen3;
