@@ -58,9 +58,9 @@ export const addSelect = (parentNode, p) => {
               select.empty();
               for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
               select.val(v);
+              if(select.val() === null) select.prop('selectedIndex', 0);
           };
     update(p.list);
-    select.prop('selectedIndex', 0);
     return Object.assign(_input(select, p, {
         get: () => select.val(),
         set: v => select.val(v)
