@@ -1,9 +1,6 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
 import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
-const _makeDd = (dl, p) => {
-    if(p.name) $('<dt>').appendTo(dl).text(p.name);
-    return $('<dd>').appendTo(dl);
-};
+const _label = (parentNode, p) => $('<label>').appendTo(parentNode).text(p.name);
 const _input = (elm, p, {get, set}) => {
     if(p.id) elm.prop('id', p.id);
     if(p.class) elm.addClass(p.class);
@@ -18,40 +15,38 @@ const _input = (elm, p, {get, set}) => {
         elm, valueOf: get
     });
 };
-export const addInputStr = (dl, p) => {
-    const dd = _makeDd(dl, p).prop({
-        contenteditable: true
-    });
-    return _input(dd, p, {
-        get: () => dd.val(),
-        set: v => dd.val(v)
+export const addInputStr = (parentNode, p) => {
+    const input = $('<input>').appendTo(_label(parentNode, p));
+    return _input(input, p, {
+        get: () => input.val(),
+        set: v => input.val(v)
     });
 };
-export const addInputNum = (dl, p) => {
-    const dd = _makeDd(dl, p),
-          div = $('<div>').appendTo(dd),
+export const addInputNum = (parentNode, p) => {
+    const label = _label(parentNode, p),
+          div = $('<div>').appendTo(label),
           {min, max, step} = p,
           input = $('<input>').prop({
               type: 'range',
               min, max, step
-          }).appendTo(dd);
+          }).appendTo(label);
     input.on('input', () => div.text(input.val()));
     return _input(input, p, {
         get: () => Number(input.val()),
         set: v => input.val(v)
     });
 };
-export const addInputBool = (dl, p) => {
+export const addInputBool = (parentNode, p) => {
     const input = $('<input>').prop({
         type: 'checkbox'
-    }).appendTo(_makeDd(dl, p));
+    }).appendTo(_label(parentNode, p));
     return _input(input, p, {
         get: () => input.prop('checked'),
         set: v => input.prop('checked', Boolean(v))
     });
 };
-export const addSelect = (dl, p) => {
-    const select = $('<select>').appendTo(_makeDd(dl, p));
+export const addSelect = (parentNode, p) => {
+    const select = $('<select>').appendTo(_label(parentNode, p));
     let {list} = p;
     if(getType(list) === getType([])) {
         const obj = {};
@@ -65,6 +60,7 @@ export const addSelect = (dl, p) => {
         select.val(v);
     };
     update();
+    select.prop('selectedIndex', 0);
     return Object.assign(_input(select, p, {
         get: () => select.val(),
         set: v => select.val(v)
