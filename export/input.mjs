@@ -8,9 +8,8 @@
         'util'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     const _makeDd = (dl, p) => {
-        if(p.title) $('<dt>').appendTo(dl).text(p.title);
-        const dd = $('<dd>').appendTo(dl);
-        return dd;
+        if(p.name) $('<dt>').appendTo(dl).text(p.name);
+        return $('<dd>').appendTo(dl);
     };
     const _input = (elm, p, {get, set}) => {
         if(p.id) elm.prop('id', p.id);
@@ -21,15 +20,11 @@
             if(v) set(v);
             elm.on('change', () => save(p.save, get()));
         }
-        get.valueOf = get;
-        get.get = get;
-        get.set = set;
-        get.elm = elm;
-        return Object.assign(get,{
-            valueOf: get, get, set, elm
+        return Object.assign(set,{
+            elm, valueOf: get
         });
     };
-    const addInputStr = (dl, p) => {
+    export const addInputStr = (dl, p) => {
         const dd = _makeDd(dl, p).prop({
             contenteditable: true
         });
@@ -38,14 +33,13 @@
             set: v => dd.val(v)
         });
     };
-    const addInputNum = (dl, p) => {
+    export const addInputNum = (dl, p) => {
         const dd = _makeDd(dl, p),
               div = $('<div>').appendTo(dd),
+              {min, max, step} = p,
               input = $('<input>').prop({
                   type: 'range',
-                  min: p.min,
-                  max: p.max,
-                  step: p.step
+                  min, max, step
               }).appendTo(dd);
         input.on('input', () => div.text(input.val()));
         return _input(input, p, {
@@ -53,32 +47,28 @@
             set: v => input.val(v)
         });
     };
-    const addInputBool = (dl, p) => {
-        const dd = _makeDd(dl, p),
-              input = $('<input>').prop({
-                  type: 'checkbox'
-              }).appendTo(dd);
+    export const addInputBool = (dl, p) => {
+        const input = $('<input>').prop({
+            type: 'checkbox'
+        }).appendTo(_makeDd(dl, p));
         return _input(input, p, {
             get: () => input.prop('checked'),
             set: v => input.prop('checked', Boolean(v))
         });
     };
-    const addSelect = (dl, p) => {
-        const dd = _makeDd(dl, p),
-              select = $('<select>').appendTo(dd);
-        const update = () => {
-            const v = select.val();
-            select.empty();
-            for(const k in p.list) $('<option>').text(k).val(p.list[k]).appendTo(select);
-            select.val(v);
-        };
+    export const addSelect = (dl, p) => {
+        const select = $('<select>').appendTo(_makeDd(dl, p)),
+              {list} = p,
+              update = () => {
+                  const v = select.val();
+                  select.empty();
+                  for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
+                  select.val(v);
+              };
         update();
-        return Object.assign(_input(dd, p, {
-            get: () => dd.val(),
-            set: v => dd.val(v)
-        }),{update});
+        return Object.assign(_input(select, p, {
+            get: () => select.val(),
+            set: v => select.val(v)
+        }),{list, update});
     };
-    const addCopyBox = (dl, p) => {
-    };
-    const addTab = () => {};
 })();
