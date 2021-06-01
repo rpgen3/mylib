@@ -24,13 +24,13 @@ export const addInputStr = (parentNode, p) => {
 };
 export const addInputNum = (parentNode, p) => {
     const label = _label(parentNode, p),
-          div = $('<div>').appendTo(label),
           {min, max, step} = p,
           input = $('<input>').prop({
               type: 'range',
               min, max, step
           }).appendTo(label),
-          f = () => div.text(input.val());
+          span = $('<span>').appendTo(label),
+          f = () => span.text(input.val());
     input.on('input', f);
     return _input(input, p, {
         get: () => Number(input.val()),
