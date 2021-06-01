@@ -11,7 +11,7 @@ const _input = (elm, p, {get, set}) => {
         if(v) set(v);
         elm.on('change', () => save(p.save, get()));
     }
-    return Object.assign(set,{
+    return Object.assign((...a) => a.length ? set(a[0]) : get(), {
         elm, valueOf: get
     });
 };
@@ -29,17 +29,18 @@ export const addInputNum = (parentNode, p) => {
           input = $('<input>').prop({
               type: 'range',
               min, max, step
-          }).appendTo(label);
-    input.on('input', () => div.text(input.val()));
+          }).appendTo(label),
+          f = () => div.text(input.val());
+    input.on('input', f);
     return _input(input, p, {
         get: () => Number(input.val()),
-        set: v => input.val(v)
+        set: v => (input.val(v),f())
     });
 };
 export const addInputBool = (parentNode, p) => {
     const input = $('<input>').prop({
         type: 'checkbox'
-    }).appendTo(_label(parentNode, p));
+    }).prependTo(_label(parentNode, p));
     return _input(input, p, {
         get: () => input.prop('checked'),
         set: v => input.prop('checked', Boolean(v))
