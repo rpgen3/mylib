@@ -4,6 +4,7 @@
         'baseN',
         'css',
         'hankaku',
+        'input',
         'random',
         'save',
         'url',
