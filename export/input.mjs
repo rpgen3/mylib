@@ -1,4 +1,5 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
+import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 const _makeDd = (dl, p) => {
     if(p.name) $('<dt>').appendTo(dl).text(p.name);
     return $('<dd>').appendTo(dl);
@@ -7,6 +8,7 @@ const _input = (elm, p, {get, set}) => {
     if(p.id) elm.prop('id', p.id);
     if(p.class) elm.addClass(p.class);
     if(p.value) set(p.value);
+    if(p.save === true) p.save = p.name;
     if(p.save) {
         const v = load(p.save);
         if(v) set(v);
@@ -49,14 +51,19 @@ export const addInputBool = (dl, p) => {
     });
 };
 export const addSelect = (dl, p) => {
-    const select = $('<select>').appendTo(_makeDd(dl, p)),
-          {list} = p,
-          update = () => {
-              const v = select.val();
-              select.empty();
-              for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
-              select.val(v);
-          };
+    const select = $('<select>').appendTo(_makeDd(dl, p));
+    let {list} = p;
+    if(getType(list) === getType([])) {
+        const obj = {};
+        for(const v of list) obj[v] = v;
+        list = obj;
+    }
+    const update = () => {
+        const v = select.val();
+        select.empty();
+        for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
+        select.val(v);
+    };
     update();
     return Object.assign(_input(select, p, {
         get: () => select.val(),
