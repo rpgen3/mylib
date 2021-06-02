@@ -1,8 +1,7 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
 import {copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
-import {encode} from 'https://rpgen3.github.io/mylib/export/baseN.mjs';
 const undef = void 0;
-const _makeId = p => 'label-' + encode(String(p.name));
+const _makeId = () => 'label-' + Math.random().toString(36).slice(2));
 const _input = (elm, p, {get, set}) => {
     if(p.value !== undef) set(p.value);
     if(p.save === true) p.save = p.name;
@@ -17,7 +16,7 @@ const _input = (elm, p, {get, set}) => {
     });
 };
 export const addInputStr = (dl, p) => {
-    const id = _makeId(p);
+    const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
     return _input(input, p, {
@@ -26,7 +25,7 @@ export const addInputStr = (dl, p) => {
     });
 };
 export const addInputNum = (dl, p) => {
-    const id = _makeId(p);
+    const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
     const dd = $('<dd>').appendTo(dl),
           {min, max, step} = p;
@@ -54,7 +53,7 @@ export const addInputBool = (dl, p) => {
     });
 };
 export const addSelect = (dl, p) => {
-    const id = _makeId(p);
+    const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
     const update = list => {
