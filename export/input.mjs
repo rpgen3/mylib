@@ -3,7 +3,7 @@ const undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, set}) => {
     if(p.value !== undef) set(p.value);
-    if(p.save === true) p.save = p.name;
+    if(p.save === true) p.save = p.label;
     if(p.save !== undef) {
         const v = load(p.save);
         if(v) set(v);
@@ -16,7 +16,7 @@ const _input = (elm, p, {get, set}) => {
 };
 export const addInputStr = (dl, p) => {
     const id = _makeId();
-    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
     return _input(input, p, {
         get: () => input.val(),
@@ -25,7 +25,7 @@ export const addInputStr = (dl, p) => {
 };
 export const addInputNum = (dl, p) => {
     const id = _makeId();
-    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const dd = $('<dd>').appendTo(dl),
           {min, max, step} = p;
     const input = $('<input>').appendTo(dd).prop({
@@ -45,7 +45,7 @@ export const addInputNum = (dl, p) => {
 export const addInputBool = (dl, p) => {
     const input = $('<input>').prop({
         type: 'checkbox'
-    }).prependTo($('<label>').appendTo($('<dd>').appendTo(dl)).text(p.name));
+    }).prependTo($('<label>').appendTo($('<dd>').appendTo(dl)).text(p.label));
     return _input(input, p, {
         get: () => input.prop('checked'),
         set: v => input.prop('checked', Boolean(v))
@@ -53,7 +53,7 @@ export const addInputBool = (dl, p) => {
 };
 export const addSelect = (dl, p) => {
     const id = _makeId();
-    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
     const update = list => {
         if(Array.isArray(list)) {
