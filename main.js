@@ -11,15 +11,12 @@
         'util',
         'strToImg'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
-    window.rpgen4 = rpgen3;
-    const h = $("<div>").appendTo($("body")).css({
+    window.rpgen3 = rpgen3;
+    const h = $("<body>").appendTo('html').css({
         "text-align": "center",
         padding: "1em"
     });
     $("<h1>").appendTo(h).text("ES2020 dynamic importでライブラリを作る");
-    $("<button>").appendTo(h).text("randInt").on("click",()=>{
-        msg(rpgen3.randInt(0,100));
-    });
     const hMsg = $("<div>").appendTo(h);
     function msg(str, isError){
         $("<span>").appendTo(hMsg.empty()).text(str).css({
@@ -27,4 +24,28 @@
             backgroundColor: isError ? 'pink' : 'lightblue'
         })
     }
+    const dl = $('<dl>').appendTo('body');
+    const a = rpgen3.addInputStr(dl,{
+        label: '文字列入力欄',
+        textarea: true
+    });
+    const b = rpgen3.addInputNum(dl,{
+        label: '数値入力欄',
+    });
+    const c = rpgen3.addInputBool(dl,{
+        label: '真偽値入力欄'
+    });
+    const d = rpgen3.addSelect(dl,{
+        name: '選択',
+        label: {
+            '選択A': 'A',
+            '選択B': 'B',
+            '選択C': 'C',
+            '選択1': 1,
+            '選択2': 2,
+            '選択3': 3
+        },
+        value: 2
+    });
+    window.input = {a,b,c,d};
 })();
