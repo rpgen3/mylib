@@ -1,10 +1,8 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
+import {copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
+import {encode} from 'https://rpgen3.github.io/mylib/export/baseN.mjs';
 const undef = void 0;
-const _makeId = async p => 'label' + Array.from(new Uint8Array(await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(p.name)
-))).map(n => n.toString(16).padStart(2, '0')).join('');
+const _makeId = p => 'label-' + encode(String(p.name));
 const _input = (elm, p, {get, set}) => {
     if(p.value !== undef) set(p.value);
     if(p.save === true) p.save = p.name;
