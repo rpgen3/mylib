@@ -12,7 +12,7 @@
         'strToImg'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     window.rpgen3 = rpgen3;
-    const h = $("<body>").appendTo('html').css({
+    const h = $('body').css({
         "text-align": "center",
         padding: "1em"
     });
@@ -24,7 +24,7 @@
             backgroundColor: isError ? 'pink' : 'lightblue'
         })
     }
-    const dl = $('<dl>').appendTo('body');
+    const dl = $('<dl>').appendTo(h);
     const a = rpgen3.addInputStr(dl,{
         label: '文字列入力欄',
         textarea: true
