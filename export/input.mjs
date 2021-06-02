@@ -1,7 +1,7 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
 import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 const undef = void 0;
-const _makeId = p => 'label' + Array.from(new Uint8Array(await crypto.subtle.digest(
+const _makeId = async p => 'label' + Array.from(new Uint8Array(await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(p.name)
 ))).map(n => n.toString(16).padStart(2, '0')).join('');
