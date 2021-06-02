@@ -11,7 +11,8 @@ const _makeId = () => 'label' + cnt++,
               elm.on('change', () => save(p.save, get()));
           }
           return Object.assign((...a) => a.length ? set(a[0]) : get(), {
-              elm, valueOf: get
+              elm, valueOf: get,
+              toString: (...a) => get().toString(...a)
           });
       };
 export const addInputStr = (dl, p) => {
@@ -32,8 +33,8 @@ export const addInputNum = (dl, p) => {
               id, min, max, step,
               type: 'range'
           });
-    const div = $('<div>').appendTo(dd),
-          f = () => div.text(input.val());
+    const span = $('<span>').appendTo(dd),
+          f = () => span.text(input.val());
     input.on('input', f);
     return _input(input, p, {
         get: () => Number(input.val()),
