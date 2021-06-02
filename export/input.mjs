@@ -1,22 +1,25 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
 import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
-let cnt = 0;
-const _makeId = () => 'label' + cnt++,
-      _input = (elm, p, {get, set}) => {
-          if(p.value) set(p.value);
-          if(p.save === true) p.save = p.name;
-          if(p.save) {
-              const v = load(p.save);
-              if(v) set(v);
-              elm.on('change', () => save(p.save, get()));
-          }
-          return Object.assign((...a) => a.length ? set(a[0]) : get(), {
-              elm, valueOf: get,
-              toString: (...a) => get().toString(...a)
-          });
-      };
+const undef = void 0;
+const _makeId = p => 'label' + Array.from(new Uint8Array(await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(p.name)
+))).map(n => n.toString(16).padStart(2, '0')).join('');
+const _input = (elm, p, {get, set}) => {
+    if(p.value !== undef) set(p.value);
+    if(p.save === true) p.save = p.name;
+    if(p.save !== undef) {
+        const v = load(p.save);
+        if(v) set(v);
+        elm.on('change', () => save(p.save, get()));
+    }
+    return Object.assign((...a) => a.length ? set(a[0]) : get(), {
+        elm, valueOf: get,
+        toString: (...a) => get().toString(...a)
+    });
+};
 export const addInputStr = (dl, p) => {
-    const id = _makeId();
+    const id = _makeId(p);
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
     return _input(input, p, {
@@ -25,14 +28,14 @@ export const addInputStr = (dl, p) => {
     });
 };
 export const addInputNum = (dl, p) => {
-    const id = _makeId();
+    const id = _makeId(p);
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
     const dd = $('<dd>').appendTo(dl),
-          {min, max, step} = p,
-          input = $('<input>').appendTo(dd).prop({
-              id, min, max, step,
-              type: 'range'
-          });
+          {min, max, step} = p;
+    const input = $('<input>').appendTo(dd).prop({
+        id, min, max, step,
+        type: 'range'
+    });
     const span = $('<span>').appendTo(dd),
           f = () => span.text(input.val());
     input.on('input', f);
@@ -51,21 +54,21 @@ export const addInputBool = (dl, p) => {
     });
 };
 export const addSelect = (dl, p) => {
-    const id = _makeId();
+    const id = _makeId(p);
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
-    const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id),
-          update = list => {
-              if(Array.isArray(list)) {
-                  const obj = {};
-                  for(const v of list) obj[v] = v;
-                  list = obj;
-              }
-              const v = select.val();
-              select.empty();
-              for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
-              select.val(v);
-              if(select.val() === null) select.prop('selectedIndex', 0);
-          };
+    const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
+    const update = list => {
+        if(Array.isArray(list)) {
+            const obj = {};
+            for(const v of list) obj[v] = v;
+            list = obj;
+        }
+        const v = select.val();
+        select.empty();
+        for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
+        select.val(v);
+        if(select.val() === null) select.prop('selectedIndex', 0);
+    };
     update(p.list);
     return Object.assign(_input(select, p, {
         get: () => select.val(),
