@@ -36,8 +36,8 @@
         label: '真偽値入力欄'
     });
     const d = rpgen3.addSelect(dl,{
-        name: '選択',
-        label: {
+        label: '選択',
+        list: {
             '選択A': 'A',
             '選択B': 'B',
             '選択C': 'C',
