@@ -55,21 +55,24 @@ export const addSelect = (dl, p) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
-    const update = list => {
-        if(Array.isArray(list)) {
+    let list;
+    const get = () => select.find('option:selected').text();
+    const set = v => 1;
+    const update = newList => {
+        if(Array.isArray(newList)) {
             const obj = {};
-            for(const v of list) obj[v] = v;
+            for(const v of newList) obj[v] = v;
             list = obj;
         }
-        const v = select.val();
+        const v = get();
         select.empty();
         for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
-        select.val(v);
-        if(select.val() === null) select.prop('selectedIndex', 0);
+        if(list[v] === undef) select.prop('selectedIndex', 0);
+        else set(v);
     };
     update(p.list);
     return Object.assign(_input(select, p, {
-        get: () => select.val(),
-        set: v => select.val(v)
+        get: () => list[get()],
+        set
     }),{update});
 };
