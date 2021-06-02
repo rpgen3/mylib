@@ -1,9 +1,8 @@
-import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
-const _label = (parentNode, p) => $('<label>').appendTo(parentNode).text(p.name),
+//import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
+//import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
+let cnt = 0;
+const _makeId = () => 'label' + cnt++,
       _input = (elm, p, {get, set}) => {
-          if(p.id) elm.prop('id', p.id);
-          if(p.class) elm.addClass(p.class);
           if(p.value) set(p.value);
           if(p.save === true) p.save = p.name;
           if(p.save) {
@@ -15,39 +14,45 @@ const _label = (parentNode, p) => $('<label>').appendTo(parentNode).text(p.name)
               elm, valueOf: get
           });
       };
-export const addInputStr = (parentNode, p) => {
-    const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).appendTo(_label(parentNode, p));
+export const addInputStr = (dl, p) => {
+    const id = _makeId();
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
     return _input(input, p, {
         get: () => input.val(),
         set: v => input.val(v)
     });
 };
-export const addInputNum = (parentNode, p) => {
-    const label = _label(parentNode, p),
+export const addInputNum = (dl, p) => {
+    const id = _makeId();
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    const dd = $('<dd>').appendTo(dl),
           {min, max, step} = p,
-          input = $('<input>').prop({
-              type: 'range',
-              min, max, step
-          }).appendTo(label),
-          span = $('<span>').appendTo(label),
-          f = () => span.text(input.val());
+          input = $('<input>').appendTo(dd).prop({
+              id, min, max, step,
+              type: 'range'
+          });
+    const div = $('<div>').appendTo(dd),
+          f = () => div.text(input.val());
     input.on('input', f);
     return _input(input, p, {
         get: () => Number(input.val()),
         set: v => (input.val(v),f())
     });
 };
-export const addInputBool = (parentNode, p) => {
+export const addInputBool = (dl, p) => {
     const input = $('<input>').prop({
         type: 'checkbox'
-    }).prependTo(_label(parentNode, p));
+    }).prependTo($('<label>').appendTo($('<dd>').appendTo(dl)).text(p.name));
     return _input(input, p, {
         get: () => input.prop('checked'),
         set: v => input.prop('checked', Boolean(v))
     });
 };
-export const addSelect = (parentNode, p) => {
-    const select = $('<select>').appendTo(_label(parentNode, p)),
+export const addSelect = (dl, p) => {
+    const id = _makeId();
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.name));
+    const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id),
           update = list => {
               if(Array.isArray(list)) {
                   const obj = {};
