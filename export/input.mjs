@@ -1,7 +1,6 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-import {copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 const undef = void 0;
-const _makeId = () => 'label-' + Math.random().toString(36).slice(2));
+const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, set}) => {
     if(p.value !== undef) set(p.value);
     if(p.save === true) p.save = p.name;
