@@ -39,7 +39,7 @@ export const addInputNum = (dl, p) => {
     const span = $('<span>').appendTo(dd),
           f = () => span.text(input.val());
     input.on('input', f);
-    const func _input(input, p, {
+    const func = _input(input, p, {
         get: () => Number(input.val()),
         set: v => (input.val(v),f())
     });
