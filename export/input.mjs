@@ -1,5 +1,5 @@
-//import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-//import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
+import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
+import {getType} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 let cnt = 0;
 const _makeId = () => 'label' + cnt++,
       _input = (elm, p, {get, set}) => {
