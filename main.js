@@ -45,7 +45,7 @@
             '選択2': 2,
             '選択3': 3
         },
-        value: 2
+        value: '選択3'
     });
     window.input = {a,b,c,d};
 })();
