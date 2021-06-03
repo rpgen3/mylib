@@ -1,5 +1,4 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-import {toSafe, makeTag} from 'https://rpgen3.github.io/mylib/export/url.mjs';
 const undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, get2, set}) => {
@@ -69,27 +68,5 @@ export const addSelect = (dl, p) => {
         get: () => list[select.val()],
         get2: () => select.val(),
         set: v => select.val(v)
-    }),{update});
-};
-const safeTag = makeTag(toSafe);
-export const addRadio = (dl, p) => {
-    const name = _makeId();
-    $('<dt>').appendTo(dl).text(p.label);
-    const dd = $('<dd>').appendTo(dl);
-    const get = () => dd.find(safeTag `input:radio[name="${name}"]:checked`).val(),
-          set = v => dd.find(safeTag `input:radio[name="${name}"][value="${v}"]`).prop('checked', true);
-    let list;
-    const update = newList => {
-        list = Array.isArray(newList) ? Object.fromEntries(newList.map(v=>[v,v])) : newList;
-        const v = get();
-        dd.empty();
-        for(const k in list) $('<input>').prependTo($('<label>').append(dd).text(k)).val(k).prop('name', name);
-        if(list[v] !== undef) set(v);
-    };
-    update(p.list);
-    return Object.assign(_input(select, p, {
-        get: () => list[get()],
-        get2: () => get(),
-        set
     }),{update});
 };
