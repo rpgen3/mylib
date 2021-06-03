@@ -56,23 +56,16 @@ export const addSelect = (dl, p) => {
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
     let list;
-    const get = () => select.find('option:selected').text();
-    const set = v => 1;
     const update = newList => {
-        if(Array.isArray(newList)) {
-            const obj = {};
-            for(const v of newList) obj[v] = v;
-            list = obj;
-        }
-        const v = get();
+        list = Array.isArray(newList) ? Object.fromEntries(newList.map(v=>[v,v])) : newList;
+        const v = select.val();
         select.empty();
-        for(const k in list) $('<option>').appendTo(select).text(k).val(list[k]);
-        if(list[v] === undef) select.prop('selectedIndex', 0);
-        else set(v);
+        for(const k in list) $('<option>').appendTo(select).text(k).val(k);
+        if(list[v] !== undef) select.val(v);
     };
     update(p.list);
     return Object.assign(_input(select, p, {
-        get: () => list[get()],
-        set
+        get: () => list[select.val()],
+        set: v => select.val(v)
     }),{update});
 };
