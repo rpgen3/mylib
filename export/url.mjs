@@ -14,3 +14,4 @@ export const getParam = url => { // URLのクエリパラメータを連想配�
 };
 export const toParam = json => Object.keys(json).map(v=>v + '=' + json[v]).join('&'); // 連想配列をクエリパラメータ形式に
 export const toSafe = str => str.replace(/[^A-Za-z0-9\-_]/g, ''); // 特殊な文字によるURLの意図しない動作を防ぐ
+export const makeTag = f => (hashes, ...values) => values.map((v, idx) => hashes[idx] + f(v)).concat(hashes.slice(values.length)).join(''); // テンプレートリテラルのタグを作成
