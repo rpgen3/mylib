@@ -45,3 +45,5 @@ const d = rpgen3.addSelect(dl,{
     },
     value: '選択3'
 });
+window.rpgen3 = rpgen3;
+window.a = {a,b,c,d};
