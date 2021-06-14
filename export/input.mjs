@@ -48,7 +48,7 @@ export const addInputBool = (dl, p) => {
     }).prependTo($('<label>').appendTo($('<dd>').appendTo(dl)).text(p.label));
     return _input(input, p, {
         get: () => input.prop('checked'),
-        set: v => input.prop('checked', Boolean(v))
+        set: v => input.prop('checked', Boolean(v) && v.toLowerCase() !== 'false')
     });
 };
 export const addSelect = (dl, p) => {
