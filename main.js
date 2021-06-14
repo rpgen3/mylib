@@ -26,13 +26,16 @@
     const dl = $('<dl>').appendTo(h);
     const a = rpgen3.addInputStr(dl,{
         label: '文字列入力欄',
-        textarea: true
+        textarea: true,
+        save: true
     });
     const b = rpgen3.addInputNum(dl,{
         label: '数値入力欄',
+        save: true
     });
     const c = rpgen3.addInputBool(dl,{
-        label: '真偽値入力欄'
+        label: '真偽値入力欄',
+        save: true
     });
     const d = rpgen3.addSelect(dl,{
         label: '選択',
@@ -44,7 +47,8 @@
             '選択2': 2,
             '選択3': 3
         },
-        value: '選択3'
+        value: '選択3',
+        save: true
     });
     window.rpgen3 = rpgen3;
     window.a = {a,b,c,d};
