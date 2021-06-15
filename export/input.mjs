@@ -1,10 +1,10 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-const undef = void 0;
+const _undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, get2, set}) => {
-    if(p.value !== undef) set(p.value);
+    if(p.value !== _undef) set(p.value);
     if(p.save === true) p.save = p.label;
-    if(p.save !== undef) {
+    if(p.save !== _undef) {
         const v = load(p.save);
         if(v) set(v);
         elm.on('change', () => save(p.save, (get2||get)()));
@@ -61,7 +61,7 @@ export const addSelect = (dl, p) => {
         const v = select.val();
         select.empty();
         for(const k in list) $('<option>').appendTo(select).text(k).val(k);
-        if(list[v] !== undef) select.val(v);
+        if(list[v] !== _undef) select.val(v);
     };
     update(p.list);
     return Object.assign(_input(select, p, {
