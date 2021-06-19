@@ -11,7 +11,7 @@ const _input = (elm, p, {get, get2, set}) => {
     }
     return Object.assign((...a) => a.length ? set(a[0]) : get(), {
         elm, valueOf: get,
-        toString: (...a) => get().toString(...a)
+        toString: (...a) => get()?.toString(...a)
     });
 };
 export const addInputStr = (dl, p) => {
