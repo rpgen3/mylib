@@ -9,7 +9,7 @@ export const median = arr => { // 中央値
     return (len <= 11 ? _median9 : len >= 37 ? _medianq : _median)(arr, len, len >> 1);
 };
 // http://midarekazu.g2.xrea.com/quicksort.html
-const kyori = 10,
+const _kyori = 10,
       _swap = (a, b, c) => ([a[b], a[c]] = [a[c], a[b]]),
       _compSwap = (a, b, c) => c < b && _swap(a, b, c),
       _sort3 = (a, b, c, d) => {
@@ -59,7 +59,7 @@ const _medianq = (a, len, mid) => {
         if (i >= mid + 2){
             a[begin] = a[i-1];
             end = i - 2;
-            if (end <= mid + kyori){
+            if (end <= mid + _kyori){
                 let i, j, imax = mid;
                 for (j = mid - 1; j >= begin; j--) if (a[j] > a[imax]) imax = j;
                 for (i = end; i >= mid + 1; i--){
@@ -74,7 +74,7 @@ const _medianq = (a, len, mid) => {
         }
         else if (j <= mid - 1){
             begin = j + 1;
-            if (begin >= mid - kyori){
+            if (begin >= mid - _kyori){
                 let i,j,imin=mid;
                 for (j = mid + 1; j <= end; j++) if (a[j] < a[imin]) imin = j;
                 for (i = begin; i <= mid - 1; i++){
