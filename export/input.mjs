@@ -1,4 +1,5 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
+import {copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 const _undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, get2, set}) => {
@@ -18,6 +19,13 @@ export const addInputStr = (dl, p) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
+    p.readonly && input.prop({
+        disabled: true,
+        readonly: true
+    }).on('click', () => {
+        copy(input.val());
+        input.select();
+    });
     return _input(input, p, {
         get: () => input.val(),
         set: v => input.val(v)
