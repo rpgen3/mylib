@@ -19,7 +19,7 @@ export const addInputStr = (dl, p) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
-    p.readonly && input.prop({
+    p.copy && input.prop({
         disabled: true,
         readonly: true
     }).on('click', () => {
