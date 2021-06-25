@@ -19,12 +19,15 @@ export const addInputStr = (dl, p) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
-    p.copy && input.prop({
-        disabled: true,
+    if(p.copy) input.prop({
         readonly: true
     }).on('click', () => {
         copy(input.val());
         input.select();
+    }).css({
+        backgroundColor: '#e9e9e9',
+        tabIndex: -1,
+        cursor: 'pointer'
     });
     return _input(input, p, {
         get: () => input.val(),
