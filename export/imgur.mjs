@@ -7,7 +7,7 @@ imgur.load = id => new Promise((resolve, reject) => {
     img.src = `https://i.imgur.com/${id}.png`;
 });
 imgur.upload = async base64 => {
-    const token = randArr(tokens);
+    const token = randArr(imgur.tokens);
     return {
         ...(await(await fetch('https://api.imgur.com/3/upload.json',{
             method: 'POST',
