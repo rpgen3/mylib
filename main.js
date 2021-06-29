@@ -62,7 +62,7 @@
     });
     const output = $('<div>').appendTo(h);
     const load = async buf => {
-        const id = await rpgen3.imgur.upload(rpgen3.bufToImg(buf));
+        const {id} = await rpgen3.imgur.upload(rpgen3.bufToImg(buf));
         rpgen3.addInputStr(output.empty(),{
             label: 'output',
             copy: true,
