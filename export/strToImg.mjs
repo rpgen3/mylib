@@ -39,14 +39,6 @@ export const imgToArr = img => {
 };
 export const bufToImg = buf => arrToImg(buf);
 export const imgToBuf = img => imgToArr(img).buffer;
-export const imgToAudio = async img => {
-    const ctx = new AudioContext,
-          buf = await ctx.decodeAudioData(imgToBuf(img)),
-          src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.connect(ctx.destination);
-    return src;
-};
 export const strToImg = str => {
     const arr = [];
     for(const c of str.split('')){
