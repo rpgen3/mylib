@@ -9,16 +9,17 @@
         'save',
         'url',
         'util',
-        'strToImg'
+        'strToImg',
+        'imgur'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     const h = $('body').css({
-        "text-align": "center",
-        padding: "1em"
+        'text-align': 'center',
+        padding: '1em'
     });
-    $("<h1>").appendTo(h).text("ES2020 dynamic importでライブラリを作る");
-    const hMsg = $("<div>").appendTo(h);
+    $('<h1>').appendTo(h).text('ES2020 dynamic importでライブラリを作る');
+    const hMsg = $('<div>').appendTo(h);
     function msg(str, isError){
-        $("<span>").appendTo(hMsg.empty()).text(str).css({
+        $('<span>').appendTo(hMsg.empty()).text(str).css({
             color: isError ? 'red' : 'blue',
             backgroundColor: isError ? 'pink' : 'lightblue'
         })
@@ -52,4 +53,21 @@
     });
     window.rpgen3 = rpgen3;
     window.a = {a,b,c,d};
+    $('<input>').appendTo(h).attr({
+        type: 'file'
+    }).on('change', ({target}) => {
+        const fr = new FileReader;
+        fr.onload = () => load(fr.result);
+        fr.readAsArrayBuffer(target.files[0]);
+    });
+    const output = $('<div>').appendTo(h);
+    const load = async buf => {
+        const id = await rpgen3.imgur.upload(rpgen3.bufToImg(buf));
+        rpgen3.addInputStr(output.empty(),{
+            label: 'output',
+            copy: true,
+            value: id
+        });
+        output.append(await rpgen3.imgur.load(id));
+    };
 })();
