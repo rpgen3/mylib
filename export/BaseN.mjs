@@ -6,7 +6,7 @@ export class BaseN {
         this.len = base.length;
     }
     encode(num){ // 10進数をN進数に変換
-        const { base, len } = this;
+        const {base, len} = this;
         let s = "", v = num;
         if(!v) return base[0];
         while(v){
