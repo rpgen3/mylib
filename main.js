@@ -1,7 +1,7 @@
 (async()=>{
     await import('https://rpgen3.github.io/lib/lib/jquery-3.5.1.min.js');
     const rpgen3 = await Promise.all([
-        'baseN',
+        'BaseN',
         'css',
         'hankaku',
         'input',
