@@ -4,7 +4,7 @@ export const getScript = url => new Promise((resolve, reject)=>{
     const e = document.createElement('script');
     document.head.append(e);
     e.onload = () => {
-        resolve();
+        resolve(e);
         e.remove();
     };
     e.onerror = reject;
