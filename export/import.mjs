@@ -10,3 +10,11 @@ export const getScript = url => new Promise((resolve, reject)=>{
     e.src = url;
     document.head.append(e);
 });
+export const getCSS = url => new Promise((resolve, reject)=>{
+    const e = document.createElement('link');
+    e.rel = 'stylesheet';
+    e.onload = () => resolve();
+    e.onerror = reject;
+    e.href = url;
+    document.head.append(e);
+});
