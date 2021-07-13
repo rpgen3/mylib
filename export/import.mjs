@@ -18,4 +18,4 @@ export const getCSS = url => new Promise((resolve, reject)=>{
     e.onerror = reject;
     e.href = url;
 });
-export const promiseOrderly = arr => arr.reduce((p,x) => p.then(x), Promise.resolve());
+export const promiseSerial = arr => arr.reduce((p,x) => p.then(x), Promise.resolve());
