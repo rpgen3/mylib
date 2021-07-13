@@ -14,7 +14,7 @@ export const getCSS = url => new Promise((resolve, reject)=>{
     const e = document.createElement('link');
     document.head.append(e);
     e.rel = 'stylesheet';
-    e.onload = resolve;
+    e.onload = () => resolve(e);
     e.onerror = reject;
     e.href = url;
 });
