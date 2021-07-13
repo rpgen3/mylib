@@ -3,6 +3,7 @@ export const imgur = {};
 imgur.load = id => new Promise((resolve, reject) => {
     const img = new Image;
     img.onload = () => resolve(img);
+    img.onerror = () => reject();
     img.crossOrigin = 'anonymous';
     img.src = `https://i.imgur.com/${id}.png`;
 });
