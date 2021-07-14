@@ -23,14 +23,12 @@ imgur.upload = async base64 => {
         })).json()).data, token
     };
 };
-imgur.delete = ({deletehash, token}) => {
-    return fetch(`https://api.imgur.com/3/image/${deletehash}`,{
-        method: 'DELETE',
-        headers: {
-            Authorization: `Client-ID ${token}`
-        }
-    });
-};
+imgur.delete = ({deletehash, token}) => fetch(`https://api.imgur.com/3/image/${deletehash}`,{
+    method: 'DELETE',
+    headers: {
+        Authorization: `Client-ID ${token}`
+    }
+});
 imgur.tokens = [
     'ed3688de8608b9d',
     '8b35a3e16a802a6',
