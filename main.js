@@ -53,21 +53,4 @@
     });
     window.rpgen3 = rpgen3;
     window.a = {a,b,c,d};
-    $('<input>').appendTo(h).attr({
-        type: 'file'
-    }).on('change', ({target}) => {
-        const fr = new FileReader;
-        fr.onload = () => load(fr.result);
-        fr.readAsArrayBuffer(target.files[0]);
-    });
-    const output = $('<div>').appendTo(h);
-    const load = async buf => {
-        const {id} = await rpgen3.imgur.upload(rpgen3.bufToImg(buf));
-        rpgen3.addInputStr(output.empty(),{
-            label: 'output',
-            copy: true,
-            value: id
-        });
-        output.append(await rpgen3.imgur.load(id));
-    };
 })();
