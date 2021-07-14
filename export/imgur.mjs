@@ -23,8 +23,8 @@ imgur.upload = async base64 => {
         })).json()).data, token
     };
 };
-imgur.delete = async ({deletehash, token}) => {
-    return await fetch(`https://api.imgur.com/3/image/${deletehash}`,{
+imgur.delete = ({deletehash, token}) => {
+    return fetch(`https://api.imgur.com/3/image/${deletehash}`,{
         method: 'DELETE',
         headers: {
             Authorization: `Client-ID ${token}`
