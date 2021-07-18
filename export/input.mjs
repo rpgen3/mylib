@@ -70,7 +70,7 @@ export const addSelect = (dl, p) => {
     const update = newList => {
         m = new Map;
         if(isIterable(newList)) {
-            if(Array.isArray(newList) && !Array.isArray(newList[0])) for(const v of newList) m.set(v, v);
+            if(!Array.isArray(newList[0])) for(const v of newList) m.set(v, v);
             else for(const [k,v] of newList) m.set(k, v);
         }
         else for(const k in newList) m.set(k, newList[k]);
