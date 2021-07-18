@@ -1,5 +1,5 @@
 import {save, load} from 'https://rpgen3.github.io/mylib/export/save.mjs';
-import {copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
+import {isIterable, copy} from 'https://rpgen3.github.io/mylib/export/util.mjs';
 const _undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, get2, set}) => {
@@ -66,17 +66,22 @@ export const addSelect = (dl, p) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
-    let list;
+    let m;
     const update = newList => {
-        list = Array.isArray(newList) ? Object.fromEntries(newList.map(v=>[v,v])) : newList;
+        m = new Map;
+        if(isIterable(newList)) {
+            if(Array.isArray(newList) && !Array.isArray(newList[0])) for(const v of newList) m.set(v, v);
+            else for(const [k,v] of newList) m.set(k, v);
+        }
+        else for(const k in newList) m.set(k, newList[k]);
         const v = select.val();
         select.empty();
-        for(const k in list) $('<option>').appendTo(select).text(k).val(k);
-        if(list[v] !== _undef) select.val(v);
+        for(const [k,v] of m) $('<option>').appendTo(select).text(k).val(k);
+        if(m.has(v)) select.val(v);
     };
     update(p.list);
     return Object.assign(_input(select, p, {
-        get: () => list[select.val()],
+        get: () => m.get(select.val()),
         get2: () => select.val(),
         set: v => select.val(v)
     }),{update});
