@@ -18,4 +18,5 @@ export const getCSS = url => new Promise((resolve, reject)=>{
     e.onerror = reject;
     e.href = url;
 });
-export const promiseSerial = arr => arr.reduce((p,x) => p.then(x), Promise.resolve());
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const promiseSerial = (arr, ms = 0) => arr.reduce((p,x,i,a) => p.then(x).then(i !== a.length - 1 && ms ? () => sleep(ms) : null), Promise.resolve());
