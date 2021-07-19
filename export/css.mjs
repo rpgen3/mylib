@@ -1,3 +1,4 @@
+export const addCSS = href => $('<link>').appendTo('head').prop({href, rel: 'stylesheet'});
 export const getCSS = elm => { // elmのCSSの値を取得する
     const e = $(elm || document.body).get(0);
     return e.currentStyle || document.defaultView.getComputedStyle(e, '');
