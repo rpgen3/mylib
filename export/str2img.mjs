@@ -1,4 +1,4 @@
-export const arrToImg = arr => {
+export const arr2img = arr => {
     const d = new Uint8Array(arr),
           width = Math.sqrt(d.length / 3) + 1 | 0,
           area = width ** 2,
@@ -18,7 +18,7 @@ export const arrToImg = arr => {
     ctx.putImageData(new ImageData(dd, width, width), 0, 0);
     return cv.toDataURL();
 };
-export const imgToArr = img => {
+export const img2arr = img => {
     const {width, height} = img,
           cv = document.createElement('canvas');
     cv.width = width;
@@ -37,20 +37,20 @@ export const imgToArr = img => {
     }
     return d;
 };
-export const bufToImg = buf => arrToImg(buf);
-export const imgToBuf = img => imgToArr(img).buffer;
-export const strToImg = str => {
+export const buf2img = buf => arr2img(buf);
+export const img2buf = img => img2arr(img).buffer;
+export const str2img = str => {
     const arr = [];
     for(const c of str.split('')){
         const n = c.charCodeAt();
         arr.push(n >> 8);
         arr.push(n & 0xff);
     }
-    return arrToImg(arr);
+    return arr2img(arr);
 };
-export const imgToStr = img => {
+export const img2str = img => {
     let str = '';
-    const arr = imgToArr(img),
+    const arr = img2arr(img),
           len = arr.length >> 1;
     for(let i = 0; i < len; i++){
         const j = i << 1;
