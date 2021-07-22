@@ -4,11 +4,13 @@ export const getCSS = elm => { // elmのCSSの値を取得する
     return e.currentStyle || document.defaultView.getComputedStyle(e, '');
 };
 export const getFontSize = elm => Number(getCSS(elm).fontSize.slice(0,-2)) + 1; // elmのフォントサイズを取得する
-export const getRGBA = color => { // color文字列をRGBAの配列にして返す。
-    const elm = $("<div>").appendTo("body").css("color",color);
-    var m = getCSS(elm).color?.match(/[0-9.]+/g).map(Number);
+export const getRGBA = color => { // color文字列を0~255のRGBAの配列にして返す。
+    const elm = $("<div>").appendTo("body").css("color",color),
+          m = getCSS(elm).color?.match(/[0-9.]+/g).map(Number);
     elm.remove();
-    if(!m) return '';
+    if(!m || (m.length !== 3 && m.length !== 4)) return null;
+    if(m.length === 3) m.push(255);
+    else m[3] = Math.round(m[3] * 255);
     return m;
 };
 let _cover;
