@@ -9,7 +9,7 @@ export const getRGBA = color => { // color文字列を0~255のRGBAの配列に�
           m = getCSS(elm).color?.match(/[0-9.]+/g).map(Number);
     elm.remove();
     if(!m || (m.length !== 3 && m.length !== 4)) return null;
-    if(m.length === 3) m.push(255);
+    else if(m.length === 3) m.push(255);
     else m[3] = Math.round(m[3] * 255);
     return m;
 };
