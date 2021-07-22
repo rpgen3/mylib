@@ -9,7 +9,7 @@
         'save',
         'url',
         'util',
-        'strToImg',
+        'str2img',
         'imgur'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     const h = $('body').css({
