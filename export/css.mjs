@@ -4,12 +4,12 @@ export const getCSS = elm => { // elmのCSSの値を取得する
     return e.currentStyle || document.defaultView.getComputedStyle(e, '');
 };
 export const getFontSize = elm => Number(getCSS(elm).fontSize.slice(0,-2)) + 1; // elmのフォントサイズを取得する
-export const getRGB = color => { // color文字列をRGBの配列にして返す。
+export const getRGBA = color => { // color文字列をRGBAの配列にして返す。
     const elm = $("<div>").appendTo("body").css("color",color);
-    var m = getCSS(elm).color.match(/[0-9]+/g);
+    var m = getCSS(elm).color?.match(/[0-9.]+/g).map(Number);
     elm.remove();
     if(!m) return '';
-    return m.map(n=>Number(n));
+    return m;
 };
 let _cover;
 export const setBgImg = (url, { color="white", opacity=0.8 }={}) => { // 背景画像を設定する。
