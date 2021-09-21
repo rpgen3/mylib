@@ -1,9 +1,9 @@
-export const count = arr => { // 値：出現数のMapオブジェクトを返す
-    const map = new Map;
-    for(const v of arr) map.set(v, map.has(v) ? map.get(v) + 1 : 1);
-    return map;
+const _count = arr => { // 値：出現数のMapオブジェクトを返す
+    const m = new Map;
+    for(const v of arr) m.set(v, m.has(v) ? m.get(v) + 1 : 1);
+    return m;
 };
-export const mode = arr => [...count(arr)].reduce((acc, v) => acc[1] < v[1] ? v : acc, [0,0])[0]; // 最頻値
+export const mode = arr => [..._count(arr)].reduce((acc, v) => acc[1] < v[1] ? v : acc, [0,0])[0]; // 最頻値
 export const median = arr => { // 中央値
     const len = arr.length;
     return (len <= 11 ? _median9 : len >= 37 ? _medianq : _median)(arr, len, len >> 1);
