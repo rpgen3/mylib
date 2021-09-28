@@ -3,7 +3,9 @@
     const rpgen3 = await Promise.all([
         'BaseN',
         'css',
+        'gradation',
         'hankaku',
+        'import',
         'input',
         'random',
         'save',
