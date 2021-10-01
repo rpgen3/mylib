@@ -12,7 +12,8 @@
         'url',
         'util',
         'str2img',
-        'imgur'
+        'imgur',
+        'sample'
     ].map(v=>import(`https://rpgen3.github.io/mylib/export/${v}.mjs`))).then(v=>Object.assign({},...v));
     const h = $('body').css({
         'text-align': 'center',
