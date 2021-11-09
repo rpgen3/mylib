@@ -15,7 +15,7 @@ const _input = (elm, p, {get, get2, set}) => {
         toString: (...a) => get()?.toString(...a)
     });
 };
-export const addInputStr = (dl, p) => {
+export const addInputStr = (dl, p = {}) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const input = $(`<${p.textarea ? 'textarea' : 'input'}>`).prop('id', id).appendTo($('<dd>').appendTo(dl));
@@ -34,7 +34,7 @@ export const addInputStr = (dl, p) => {
         set: v => input.val(v)
     });
 };
-export const addInputNum = (dl, p) => {
+export const addInputNum = (dl, p = {}) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const dd = $('<dd>').appendTo(dl),
@@ -53,7 +53,7 @@ export const addInputNum = (dl, p) => {
     f();
     return func;
 };
-export const addInputBool = (dl, p) => {
+export const addInputBool = (dl, p = {}) => {
     const input = $('<input>').prop({
         type: 'checkbox'
     }).prependTo($('<label>').appendTo($('<dd>').appendTo(dl)).text(p.label));
@@ -62,7 +62,7 @@ export const addInputBool = (dl, p) => {
         set: v => input.prop('checked', Boolean(v) && v !== 'false')
     });
 };
-export const addSelect = (dl, p) => {
+export const addSelect = (dl, p = {}) => {
     const id = _makeId();
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
