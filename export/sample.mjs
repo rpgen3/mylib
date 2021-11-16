@@ -1,3 +1,8 @@
+export const mean = arr => { // 平均値
+    let sum = 0;
+    for(const v of arr) sum += v;
+    return sum / arr.length;
+};
 const _count = arr => { // 値：出現数のMapオブジェクトを返す
     const m = new Map;
     for(const v of arr) m.set(v, m.has(v) ? m.get(v) + 1 : 1);
