@@ -3,7 +3,7 @@ export const mean = arr => { // 平均値
     for(const v of arr) sum += v;
     return sum / arr.length;
 };
-export const meanTrim = (arr, trim = 1 / 4, isWinsorized) => { // 刈り込み平均
+export const meanTrim = (arr, trim = 1 / 4, isWinsorized = false) => { // 刈り込み平均
     const n = arr.length * trim | 0,
           max = arr.length - n;
     arr.sort((a, b) => a - b);
