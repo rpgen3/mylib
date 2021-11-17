@@ -124,14 +124,14 @@ const _medianq = (a, len, mid) => {
     }
 };
 // https://algorithm.joho.info/programming/python/opencv-otsu-thresholding-py/
-export const binarizeOtsu = lums => { // 大津の手法（判別分析法）
+export const binarizeOtsu = luminance => { // 大津の手法（判別分析法）
     const hist = [...Array(256).fill(0)],
           _hist = hist.slice();
-    for(const lum of lums) hist[lum]++;
+    for(const lum of luminance) hist[lum]++;
     let sum = 0;
     for(const [i, v] of hist.entries()) sum += (_hist[i] = i * v);
     let n1 = 0,
-        n2 = lums.length,
+        n2 = luminance.length,
         _1 = 0,
         _2 = sum;
     const s_max = [0, -10];
