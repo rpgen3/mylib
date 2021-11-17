@@ -3,12 +3,40 @@ export const mean = arr => { // 平均値
     for(const v of arr) sum += v;
     return sum / arr.length;
 };
-const _count = arr => { // 値：出現数のMapオブジェクトを返す
-    const m = new Map;
-    for(const v of arr) m.set(v, m.has(v) ? m.get(v) + 1 : 1);
-    return m;
+export const meanTrim = (arr, trim = 1 / 4, isWinsorized) => { // 刈り込み平均
+    const n = arr.length * trim | 0,
+          max = arr.length - n;
+    arr.sort((a, b) => a - b);
+    let sum = 0;
+    for(let i = n; i < max; i++) sum += arr[i];
+    if(isWinsorized) {
+        sum += n * (arr[n] + arr[max - 1]);
+        return sum / arr.length;
+    }
+    else return sum / (max - n);
 };
-export const mode = arr => [..._count(arr)].reduce((acc, v) => acc[1] < v[1] ? v : acc, [0,0])[0]; // 最頻値
+export const midrange = arr => { // 最大値と最小値の平均
+    let min = Infinity,
+        max = -Infinity;
+    for(const v of arr) {
+        if(min > v) min = v;
+        else if(max < v) max = v;
+    }
+    return (max - min) / 2;
+};
+export const mode = arr => { // 最頻値
+    const hist = new Map;
+    for(const v of arr) hist.set(v, hist.has(v) ? hist.get(v) + 1 : 1);
+    let max = -Infinity,
+        _v = -1;
+    for(const [v, n] of hist) {
+        if(max < n) {
+            max = n;
+            _v = v;
+        }
+    }
+    return _v;
+};
 export const median = arr => { // 中央値
     const len = arr.length;
     return (len <= 11 ? _median9 : len >= 37 ? _medianq : _median)(arr, len, len >> 1);
@@ -94,4 +122,32 @@ const _medianq = (a, len, mid) => {
         }
         else return a[begin];
     }
+};
+// https://algorithm.joho.info/programming/python/opencv-otsu-thresholding-py/
+export const binarizeOtsu = lums => { // 大津の手法（判別分析法）
+    const hist = [...Array(256).fill(0)],
+          _hist = hist.slice();
+    for(const lum of lums) hist[lum]++;
+    let sum = 0;
+    for(const [i, v] of hist.entries()) sum += (_hist[i] = i * v);
+    let n1 = 0,
+        n2 = lums.length,
+        _1 = 0,
+        _2 = sum;
+    const s_max = [0, -10];
+    for(const [th, v] of hist.entries()) {
+        n1 += v; // クラス1とクラス2の画素数を計算
+        n2 -= v;
+        const _v = _hist[th]; // クラス1とクラス2の画素値の平均を計算
+        _1 += _v;
+        _2 -= _v;
+        const mu1 = n1 ? _1 / n1 : 0,
+              mu2 = n2 ? _2 / n2 : 0,
+              s = n1 * n2 * (mu1 - mu2) ** 2; // クラス間分散の分子を計算
+        if(s > s_max[1]) { // クラス間分散の分子が最大のとき、クラス間分散の分子と閾値を記録
+            s_max[0] = th;
+            s_max[1] = s;
+        }
+    }
+    return s_max[0]; // クラス間分散が最大のときの閾値を取得
 };
