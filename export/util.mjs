@@ -8,7 +8,7 @@ export const getTime = date => { // xx:yy:zz の形式で現在時刻の文字�
     d /= 60;
     const m = d % 60;
     d /= 60;
-    return [d, m, s].map(v=>('0' + v | 0).slice(-2)).join(':');
+    return [d, m, s].map(v=>('0' + (v | 0)).slice(-2)).join(':');
 };
 export const copy = str => { // 文字列をクリップボードにコピー
     const e = document.createElement("textarea");
