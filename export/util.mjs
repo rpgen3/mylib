@@ -25,3 +25,10 @@ export const makeLoader = ctor => url => new Promise((resolve, reject) => Object
     crossOrigin: 'anonymous',
     src: url
 }));
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const toI = (w, x, y) => x + y * w;
+export const toXY = (w, i) => {
+    const x = i % w,
+          y = i / w | 0;
+    return [x, y];
+};
