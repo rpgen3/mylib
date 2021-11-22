@@ -26,6 +26,7 @@ export const makeLoader = ctor => url => new Promise((resolve, reject) => Object
     src: url
 }));
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const addBtn = (h, ttl, func) => $('<button>').appendTo(h).text(ttl).on('click', func);
 export const toI = (w, x, y) => x + y * w;
 export const toXY = (w, i) => {
     const x = i % w,
