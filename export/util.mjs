@@ -2,7 +2,7 @@ export const isIterable = x => Symbol.iterator in x; // イテラブルか判定
 export const getType = x => Object.prototype.toString.call(x).replace(/\[object |\]/g,''); // 型名を返す
 export const getTime = date => { // xx:yy:zz の形式で現在時刻の文字列を返す
     let d = date ? new Date(date) : Date.now();
-    if(Number.isNaN(Number(d))) throw new Error("argument 1 needs to be a date");
+    if(Number.isNaN(Number(d))) throw new Error('argument 1 needs to be a date');
     d /= 1000;
     const s = d % 60;
     d /= 60;
@@ -11,7 +11,7 @@ export const getTime = date => { // xx:yy:zz の形式で現在時刻の文字�
     return [d, m, s].map(v=>('0' + (v | 0)).slice(-2)).join(':');
 };
 export const copy = str => { // 文字列をクリップボードにコピー
-    const e = document.createElement("textarea");
+    const e = document.createElement('textarea');
     e.textContent = str;
     document.body.appendChild(e);
     e.select();
@@ -28,8 +28,9 @@ export const makeLoader = ctor => url => new Promise((resolve, reject) => Object
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const addBtn = (h, ttl, func) => $('<button>').appendTo(h).text(ttl).on('click', func);
 export const makeCanvas = (width, height) => {
-    const cv = $('<canvas>').prop({width, height}),
-          ctx = cv.get(0).getContext('2d');
+    const cv = document.createElement('canvas');
+    Object.assign(cv, {width, height});
+    const ctx = cv.getContext('2d');
     return [cv, ctx];
 };
 export const toI = (w, x, y) => x + y * w;
