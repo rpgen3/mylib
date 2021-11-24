@@ -18,13 +18,15 @@ export const copy = str => { // 文字列をクリップボードにコピー
     document.execCommand('copy');
     document.body.removeChild(e);
 };
-export const makeLoader = ctor => url => new Promise((resolve, reject) => Object.assign(new ctor, {
-    onload: ({target}) => resolve(target),
-    onloadedmetadata: ({target}) => resolve(target),
-    onerror: reject,
-    crossOrigin: 'anonymous',
-    src: url
-}));
+export const loadSrc = (tagName, url) => new Promise((resolve, reject) => Object.assign(
+    document.createElement(tagName), {
+        onload: ({target}) => resolve(target),
+        onloadedmetadata: ({target}) => resolve(target),
+        onerror: reject,
+        crossOrigin: 'anonymous',
+        src: url
+    }
+));
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const addBtn = (h, ttl, func) => $('<button>').appendTo(h).text(ttl).on('click', func);
 export const makeCanvas = (width, height) => {
