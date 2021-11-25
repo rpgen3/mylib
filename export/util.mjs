@@ -33,7 +33,7 @@ export const makeCanvas = (width, height) => {
     const cv = document.createElement('canvas');
     Object.assign(cv, {width, height});
     const ctx = cv.getContext('2d');
-    return [cv, ctx];
+    return {cv, ctx};
 };
 export const toI = (w, x, y) => x + y * w;
 export const toXY = (w, i) => {
