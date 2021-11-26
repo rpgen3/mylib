@@ -41,3 +41,9 @@ export const toXY = (w, i) => {
           y = i / w | 0;
     return [x, y];
 };
+export const download = (url, ttl) => Object.assign(
+    document.createElement('a'), {
+        href: url,
+        download: ttl
+    }
+).click();
