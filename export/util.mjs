@@ -28,7 +28,12 @@ export const loadSrc = (tagName, url) => new Promise((resolve, reject) => Object
     }
 ));
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-export const addBtn = (h, ttl, func) => $('<button>').appendTo(h).text(ttl).on('click', func);
+export const addBtn = (html, ttl, func) => $('<button>').text(ttl).appendTo(html).on('click', func);
+export const addA = (html, url, ttl = url) => $('<a>').prop({
+    href: url,
+    target: '_blank',
+    rel: 'noopener noreferrer'
+}).text(ttl).appendTo(html);
 export const makeCanvas = (width, height) => {
     const cv = document.createElement('canvas');
     Object.assign(cv, {width, height});
