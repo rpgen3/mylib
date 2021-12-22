@@ -67,13 +67,13 @@ export const addSelect = (dl, p = {}) => {
     $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
     const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
     let m;
-    const update = (newList, value = select.val()) => {
+    const update = (list, value = select.val()) => {
         m = new Map;
-        if(isIterable(newList)) {
-            if(Array.isArray(newList[0])) for(const [k,v] of newList) m.set(String(k), v);
-            else for(const v of newList) m.set(String(v), v);
+        if(isIterable(list)) {
+            if(Array.isArray(list[0])) for(const [k,v] of list) m.set(String(k), v);
+            else for(const v of list) m.set(String(v), v);
         }
-        else for(const k in newList) m.set(k, newList[k]);
+        else for(const k in list) m.set(k, list[k]);
         select.empty();
         for(const [k,v] of m) $('<option>').appendTo(select).text(k).val(k);
         if(m.has(value)) select.val(value);
