@@ -85,3 +85,27 @@ export const addSelect = (dl, p = {}) => {
         set: v => select.val(v)
     }),{update});
 };
+export const addGroupedSelect = (dl, p = {}) => {
+    const id = _makeId();
+    $('<dt>').appendTo(dl).append($('<label>').prop('for', id).text(p.label));
+    const select = $('<select>').appendTo($('<dd>').appendTo(dl)).prop('id', id);
+    let m;
+    const update = (list, value = select.val()) => {
+        m = new Map;
+        select.empty();
+        for(const arr in list) {
+            const optgroup = $('<optgroup>').appendTo(select).prop('label', arr[0]);
+            for (const v of arr[1]) {
+                m.set(v[0], v[1]);
+                $('<option>').appendTo(optgroup).text(k).val(k);
+            }
+        }
+        if(m.has(value)) select.val(value);
+    };
+    if(p.list) update(p.list);
+    return Object.assign(_input(select, p, {
+        get: () => m.get(select.val()),
+        get2: () => select.val(),
+        set: v => select.val(v)
+    }),{update});
+};
