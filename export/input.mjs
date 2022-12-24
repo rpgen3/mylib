@@ -93,11 +93,11 @@ export const addGroupedSelect = (dl, p = {}) => {
     const update = (list, value = select.val()) => {
         m = new Map;
         select.empty();
-        for(const arr in list) {
+        for(const arr of list) {
             const optgroup = $('<optgroup>').appendTo(select).prop('label', arr[0]);
             for (const v of arr[1]) {
                 m.set(v[0], v[1]);
-                $('<option>').appendTo(optgroup).text(k).val(k);
+                $('<option>').appendTo(optgroup).text(v[0]).val(v[1]);
             }
         }
         if(m.has(value)) select.val(value);
