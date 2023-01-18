@@ -4,7 +4,7 @@ const _undef = void 0;
 const _makeId = () => 'label-' + Math.random().toString(36).slice(2);
 const _input = (elm, p, {get, get2, set}) => {
     if(p.value !== _undef) set(p.value);
-    if(p.save === true) p.save = [p.prefix, p.label].map(v => v.replace(/\|/g, '')).join('|');
+    if(p.save === true) p.save = [p.prefix, p.label].map(v => v?.replace(/\|/g, '')).join('|');
     if(p.save !== _undef) {
         const v = load(p.save);
         if(v) set(v);
