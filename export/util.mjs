@@ -2,13 +2,14 @@ export const isIterable = x => Symbol.iterator in x; // イテラブルか判定
 export const getType = x => Object.prototype.toString.call(x).replace(/\[object |\]/g,''); // 型名を返す
 export const getTime = (date = null, offsetHours = null) => { // HH:MM:SS
     let d = date && date !== 0 ? new Date(date) : Date.now();
+    d -= new Date().getTimezoneOffset() * 60 * 1000;
     d /= 1000;
     const s = (d | 0) % 60;
     d /= 60;
     const m = (d | 0) % 60;
     d /= 60;
-    const h = ((d | 0) + offsetHours) % 24;
-    return [h, m, s].map(v=>v.toString().padStart(2,'0')).join(':');
+    const h = (d | 0) % 24;
+    return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
 };
 export const copy = str => { // 文字列をクリップボードにコピー
     const e = document.createElement('textarea');
