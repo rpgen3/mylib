@@ -2,10 +2,10 @@ export const isIterable = x => Symbol.iterator in x; // イテラブルか判定
 export const getType = x => Object.prototype.toString.call(x).replace(/\[object |\]/g,''); // 型名を返す
 export const getTime = (date = null, offsetHours = null) => { // HH:MM:SS
     let d = date && date !== 0 ? new Date(date) : Date.now();
-    d -= new Date().getTimezoneOffset() * 60 * 1000;
     d /= 1000;
     const s = (d | 0) % 60;
     d /= 60;
+    d -= new Date().getTimezoneOffset();
     const m = (d | 0) % 60;
     d /= 60;
     const h = (d | 0) % 24;
